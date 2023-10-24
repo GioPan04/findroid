@@ -6,6 +6,7 @@ import dev.jdtech.jellyfin.models.FindroidEpisode
 import dev.jdtech.jellyfin.models.FindroidItem
 import dev.jdtech.jellyfin.models.FindroidMovie
 import dev.jdtech.jellyfin.models.FindroidSeason
+import dev.jdtech.jellyfin.models.FindroidSession
 import dev.jdtech.jellyfin.models.FindroidShow
 import dev.jdtech.jellyfin.models.FindroidSource
 import dev.jdtech.jellyfin.models.Intro
@@ -115,4 +116,6 @@ interface JellyfinRepository {
     suspend fun getDownloads(): List<FindroidItem>
 
     fun getUserId(): UUID
+
+    suspend fun getSessions(): List<FindroidSession>
 }

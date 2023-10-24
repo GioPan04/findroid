@@ -10,6 +10,7 @@ import dev.jdtech.jellyfin.models.FindroidEpisode
 import dev.jdtech.jellyfin.models.FindroidItem
 import dev.jdtech.jellyfin.models.FindroidMovie
 import dev.jdtech.jellyfin.models.FindroidSeason
+import dev.jdtech.jellyfin.models.FindroidSession
 import dev.jdtech.jellyfin.models.FindroidShow
 import dev.jdtech.jellyfin.models.FindroidSource
 import dev.jdtech.jellyfin.models.Intro
@@ -293,5 +294,9 @@ class JellyfinRepositoryOfflineImpl(
 
     override fun getUserId(): UUID {
         return jellyfinApi.userId!!
+    }
+
+    override suspend fun getSessions(): List<FindroidSession> {
+        throw Exception("System info not available in offline mode")
     }
 }

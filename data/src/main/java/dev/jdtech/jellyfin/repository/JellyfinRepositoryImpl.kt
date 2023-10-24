@@ -12,6 +12,7 @@ import dev.jdtech.jellyfin.models.FindroidEpisode
 import dev.jdtech.jellyfin.models.FindroidItem
 import dev.jdtech.jellyfin.models.FindroidMovie
 import dev.jdtech.jellyfin.models.FindroidSeason
+import dev.jdtech.jellyfin.models.FindroidSession
 import dev.jdtech.jellyfin.models.FindroidShow
 import dev.jdtech.jellyfin.models.FindroidSource
 import dev.jdtech.jellyfin.models.Intro
@@ -22,6 +23,7 @@ import dev.jdtech.jellyfin.models.toFindroidEpisode
 import dev.jdtech.jellyfin.models.toFindroidItem
 import dev.jdtech.jellyfin.models.toFindroidMovie
 import dev.jdtech.jellyfin.models.toFindroidSeason
+import dev.jdtech.jellyfin.models.toFindroidSession
 import dev.jdtech.jellyfin.models.toFindroidShow
 import dev.jdtech.jellyfin.models.toFindroidSource
 import dev.jdtech.jellyfin.models.toIntro
@@ -580,5 +582,9 @@ class JellyfinRepositoryImpl(
 
     override fun getUserId(): UUID {
         return jellyfinApi.userId!!
+    }
+
+    override suspend fun getSessions(): List<FindroidSession> {
+        return jellyfinApi.sessionApi.getSessions().content.map { it.toFindroidSession() }
     }
 }

@@ -585,6 +585,6 @@ class JellyfinRepositoryImpl(
     }
 
     override suspend fun getSessions(): List<FindroidSession> {
-        return jellyfinApi.sessionApi.getSessions().content.map { it.toFindroidSession() }
+        return jellyfinApi.sessionApi.getSessions(getUserId()).content.map { it.toFindroidSession() }
     }
 }

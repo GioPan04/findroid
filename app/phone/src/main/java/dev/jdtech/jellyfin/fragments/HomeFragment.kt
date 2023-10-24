@@ -25,13 +25,13 @@ import dev.jdtech.jellyfin.AppPreferences
 import dev.jdtech.jellyfin.adapters.ViewListAdapter
 import dev.jdtech.jellyfin.databinding.FragmentHomeBinding
 import dev.jdtech.jellyfin.dialogs.ErrorDialogFragment
-import dev.jdtech.jellyfin.dialogs.getCastSelectionDialog
 import dev.jdtech.jellyfin.models.FindroidEpisode
 import dev.jdtech.jellyfin.models.FindroidItem
 import dev.jdtech.jellyfin.models.FindroidMovie
 import dev.jdtech.jellyfin.models.FindroidShow
 import dev.jdtech.jellyfin.utils.checkIfLoginRequired
 import dev.jdtech.jellyfin.utils.restart
+import dev.jdtech.jellyfin.viewmodels.CastViewModel
 import dev.jdtech.jellyfin.viewmodels.HomeViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -43,6 +43,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
+
+    private val castViewModel: CastViewModel by viewModels()
 
     private var originalSoftInputMode: Int? = null
 
@@ -115,11 +117,15 @@ class HomeFragment : Fragment() {
                             true
                         }
                         CoreR.id.action_cast -> {
-                            val dialog = getCastSelectionDialog(requireContext(),onItemSelected = {i ->
-                                Timber.tag(
-                                    "findroid"
-                                ).i(i.toString())}, onCancel = {})
-                            dialog.show()
+                            CastSelectionFragment().show(childFragmentManager, "Cast")
+//                            val dialog = getCastSelectionDialog(
+//                                requireContext(),
+//                                onItemSelected =
+//                                {i ->
+//                                    castViewModel.connect(i.toString())
+//                                },
+//                                onCancel = {})
+//                            dialog.show()
                             true
                         }
                         else -> false

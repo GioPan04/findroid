@@ -1,6 +1,7 @@
 package dev.jdtech.jellyfin.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -23,6 +25,7 @@ import dev.jdtech.jellyfin.AppPreferences
 import dev.jdtech.jellyfin.adapters.ViewListAdapter
 import dev.jdtech.jellyfin.databinding.FragmentHomeBinding
 import dev.jdtech.jellyfin.dialogs.ErrorDialogFragment
+import dev.jdtech.jellyfin.dialogs.getCastSelectionDialog
 import dev.jdtech.jellyfin.models.FindroidEpisode
 import dev.jdtech.jellyfin.models.FindroidItem
 import dev.jdtech.jellyfin.models.FindroidMovie
@@ -71,6 +74,7 @@ class HomeFragment : Fragment() {
                     menuInflater.inflate(CoreR.menu.home_menu, menu)
                     val settings = menu.findItem(CoreR.id.action_settings)
                     val search = menu.findItem(CoreR.id.action_search)
+                    val cast = menu.findItem(CoreR.id.action_cast)
                     val searchView = search.actionView as SearchView
                     searchView.queryHint = getString(CoreR.string.search_hint)
 
@@ -78,11 +82,13 @@ class HomeFragment : Fragment() {
                         object : MenuItem.OnActionExpandListener {
                             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                                 settings.isVisible = false
+                                cast.isVisible = false
                                 return true
                             }
 
                             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                                 settings.isVisible = true
+                                cast.isVisible = true
                                 return true
                             }
                         },
@@ -106,6 +112,14 @@ class HomeFragment : Fragment() {
                     return when (menuItem.itemId) {
                         CoreR.id.action_settings -> {
                             navigateToSettingsFragment()
+                            true
+                        }
+                        CoreR.id.action_cast -> {
+                            val dialog = getCastSelectionDialog(requireContext(),onItemSelected = {i ->
+                                Timber.tag(
+                                    "findroid"
+                                ).i(i.toString())}, onCancel = {})
+                            dialog.show()
                             true
                         }
                         else -> false
